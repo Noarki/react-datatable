@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(68, 77, 72);
+}
+
+.mainWrapper {
+    max-width: 1080px;
+    margin: 0 auto;
+    margin-top: 24px;
+    background-color: rgb(241, 241, 241);
+    -webkit-box-shadow: 0px 5px 5px 7px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 5px 5px 7px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 5px 5px 7px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerText {
+    font-family: 'Playfair Display', sans-serif;
+    font-style: italic;
+    font-size: 40px;
+    font-weight: 900;
+    color: rgb(68, 77, 72);
+}
+
+.buttonWrapper {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.btn {
+    width: 180px;
+    height: 80px;
+    font-style: italic;
+    border: 4px solid rgb(68, 77, 72);
+    font-size: 18px;
+    font-weight: 100;
+    color: rgb(68, 77, 72);
+    cursor: pointer;
+    background-color: rgb(241, 241, 241);
+}
