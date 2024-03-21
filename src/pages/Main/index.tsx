@@ -2,12 +2,16 @@ import { useState } from 'react';
 import Button from '../../components/main-Page-Components/button/Button';
 import Loading from '../../components/main-Page-Components/loadingAnimation/Loading';
 import style from './index.module.scss';
+import { useAppDispatch } from '../../__data/hooks/redux';
+import { userSlice } from '../../__data/store/redusers/dataTableReducer';
 
 function Main() {
     const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
+    const dispatch = useAppDispatch();
 
     const handleClickShortList = () => {
         setDisplayLoadingAnimation(true);
+        dispatch(userSlice.actions.getShortDataList());
         setTimeout(() => {
             setDisplayLoadingAnimation(false);
         }, 7000);
