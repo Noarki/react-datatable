@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import style from './index.module.scss';
 import Button from '../../components/main-Page-Components/button/Button';
 import UserAdd from '../../components/Datatable-Page-Components/modalUserAdd/UserAdd';
@@ -38,7 +39,12 @@ function DataTable() {
                     Add new user
                 </Button>
             </div>
-            {showUserCreationWindow && <UserAdd />}
+            {showUserCreationWindow && (
+                <UserAdd
+                    showUserCreationWindow={showUserCreationWindow}
+                    setShowUserCreationWindow={setShowUserCreationWindow}
+                />
+            )}
         </div>
     );
 }

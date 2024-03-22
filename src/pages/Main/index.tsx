@@ -1,27 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../../components/main-Page-Components/button/Button';
 import Loading from '../../components/main-Page-Components/loadingAnimation/Loading';
 import style from './index.module.scss';
-import { useAppDispatch } from '../../__data/hooks/redux';
-import { userSlice } from '../../__data/store/redusers/dataTableReducer';
+import { useAppDispatch, useAppSelector } from '../../__data/hooks/redux';
+
+import { fetchData } from '../../__data/store/actions/dataTableAction';
+import { useNavigate } from 'react-router-dom';
 
 function Main() {
-    const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
+    const { allUsersList, error, loading } = useAppSelector((state) => state.dataTable);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (allUsersList.length > 0) {
+            navigate('/userData');
+        }
+    }, [allUsersList]);
 
     const handleClickShortList = () => {
-        setDisplayLoadingAnimation(true);
-        dispatch(userSlice.actions.getShortDataList());
-        setTimeout(() => {
-            setDisplayLoadingAnimation(false);
-        }, 7000);
+        dispatch(fetchData('short'));
     };
 
     const handleClickFullList = () => {
-        setDisplayLoadingAnimation(true);
-        setTimeout(() => {
-            setDisplayLoadingAnimation(false);
-        }, 7000);
+        dispatch(fetchData('full'));
     };
 
     return (
@@ -36,8 +38,9 @@ function Main() {
                         get full datatable
                     </Button>
                 </div>
+                {error && <p className={style.errorText}> Произошла ошибка получения данных! </p>}
             </div>
-            {displayLoadingAnimation && <Loading />}
+            {loading && <Loading />}
         </>
     );
 }

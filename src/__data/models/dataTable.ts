@@ -1,7 +1,7 @@
 export interface IdataTable {
     allUsersList: IuserData[];
-    status: string;
-    error: string;
+    loading: boolean;
+    error: boolean;
 }
 
 export interface IuserData {
