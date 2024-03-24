@@ -2,7 +2,7 @@ import axios from 'axios';
 import { userSlice } from '../redusers/dataTableReducer';
 import { AppDispatch, AppState } from '../store';
 import { IuserData } from '../../models/dataTable';
-import { FULL_DATA, SHORT_DATA } from '../../../configue/network';
+import { FULL_DATA, SHORT_DATA } from '../../../config/network';
 
 export const displayGetShortDataList = () => (dispatch: AppDispatch, getState: AppState) => {};
 

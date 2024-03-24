@@ -7,18 +7,17 @@ interface Iprops {
     setShowUserCreationWindow: (x: boolean) => void;
 }
 
-const UserAdd: React.FC<Iprops> = (showUserCreationWindow, setShowUserCreationWindow) => {
+const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreationWindow }) => {
     const portal = document.getElementById('portal');
 
     const handleFormSubmit = () => {};
 
+    const modalWindowOutClick = () => {
+        setShowUserCreationWindow(!showUserCreationWindow);
+    };
+
     return createPortal(
-        <div
-            className={style.fullMonitorScreen}
-            onClick={() => {
-                setShowUserCreationWindow(!showUserCreationWindow);
-            }}
-        >
+        <div className={style.fullMonitorScreen} onClick={modalWindowOutClick}>
             <div className={style.modalPortalWrapper} onClick={(e) => e.stopPropagation()}>
                 <p className={style.headerText}> Add new fantastic user</p>
                 <form className={style.inputsWrapper}>

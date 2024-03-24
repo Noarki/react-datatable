@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface Iprops {
-    onClick: () => void;
-    children: string;
+    onClick: () => void | ((x: string) => void);
+    children: string | number;
     className?: string;
 }
 

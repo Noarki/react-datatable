@@ -6,8 +6,8 @@ export interface IdataTable {
 
 export interface IuserData {
     id: number;
-    name: string;
-    surname: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
 
