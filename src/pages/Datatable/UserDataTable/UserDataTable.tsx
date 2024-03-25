@@ -1,20 +1,26 @@
 import { useState } from 'react';
-import { useAppSelector } from '../../../__data/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../__data/hooks/redux';
 import { IuserData } from '../../../__data/models/dataTable';
 import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
+import dataTableReducer, { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
 interface IProps {}
 
 const UserDataTable: React.FC<IProps> = () => {
     const { allUsersList } = useAppSelector((state) => state.dataTable);
+    const dispatch = useAppDispatch();
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPageNumber] = useState(5);
+    const [usersPerPageNumber] = useState(10);
 
     const lastOnPageIndex = usersPerPageNumber * currentPage;
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
     const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    const handleSetActiveProfile = (userData: IuserData) => {
+        dispatch(userSlice.actions.setActiveUser(userData));
+    };
 
     return (
         <div className={style.datatableMainWrapper}>
@@ -33,9 +39,12 @@ const UserDataTable: React.FC<IProps> = () => {
                 </div>
             </div>
 
-            <div>
-                {currentPageData.map((value: IuserData) => (
-                    <div className={style.TableRow}>
+            <div className={style.table}>
+                {currentPageData.map((value: IuserData, index: number) => (
+                    <div
+                        className={index % 2 === 0 ? style.TableRow_odd : style.TableRow_even}
+                        onClick={() => handleSetActiveProfile(value)}
+                    >
                         <div className={style.TableCell}>
                             <p className={style.tableText}>{value.id}</p>
                         </div>
@@ -56,6 +65,7 @@ const UserDataTable: React.FC<IProps> = () => {
                 usersPerPageNumber={usersPerPageNumber}
                 totalUserNumber={allUsersList.length}
                 paginate={paginate}
+                currentPage={currentPage}
             />
         </div>
     );

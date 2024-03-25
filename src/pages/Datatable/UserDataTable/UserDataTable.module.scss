@@ -14,11 +14,14 @@
 
 .headerTableCell {
     display: table-cell;
-
-    width: 250px;
     height: 36px;
+    width: 300px;
     vertical-align: middle;
     text-align: center;
+
+    &.id {
+        width: 10%;
+    }
 }
 
 .tableHeaderText {
@@ -28,17 +31,47 @@
     font-style: italic;
 }
 
-.TableRow {
+.table {
+    margin-bottom: 24px;
+}
+
+.TableRow_odd {
     display: table-row;
     background-color: white;
 }
 
+.TableRow_even {
+    display: table-row;
+    background-color: rgb (240, 240, 240);
+}
+
 .TableCell {
     display: table-cell;
-    width: 250px;
+    width: 350px;
     height: 36px;
     vertical-align: middle;
     text-align: center;
+    border-left: 2px solid rgb(103, 119, 109);
+}
+
+.idCell {
+    width: 10%;
+}
+
+.firstNameCell {
+    width: 30%;
+}
+
+.LastNameCell {
+    width: 30%;
+}
+
+.EmailCell {
+    width: 30%;
+}
+
+.TableCell:first-child {
+    border: none;
 }
 
 .tableText {

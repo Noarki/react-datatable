@@ -1,4 +1,6 @@
 .paginationWrapper {
     display: flex;
     flex-direction: row;
+    max-width: 20%;
+    justify-content: space-between;
 }

@@ -1,10 +1,13 @@
 .fullMonitorScreen {
     position: absolute;
-    top: 2px;
     height: 100%;
     width: 100vw;
 
-    opacity: 0.95;
+    display: flex;
+    align-items: center;
+    top: 0%;
+
+    opacity: 0.9;
     background: #000;
 }
 
@@ -12,6 +15,8 @@
     width: 1080px;
     background-color: rgb(241, 241, 241);
     margin: 0 auto;
+    opacity: 1;
+    z-index: 10;
 }
 
 .headerText {

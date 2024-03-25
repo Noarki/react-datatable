@@ -3,6 +3,20 @@ import { IdataTable, IuserData } from '../../models/dataTable';
 
 const initialState: IdataTable = {
     allUsersList: [],
+    activeUser: {
+        id: NaN,
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        description: '',
+        addres: {
+            city: '',
+            state: '',
+            streetAddress: '',
+            zip: NaN,
+        },
+    },
     loading: false,
     error: false,
 };
@@ -31,6 +45,12 @@ export const userSlice = createSlice({
                 ...state,
                 error: true,
                 loading: false,
+            };
+        },
+        setActiveUser(state, action: PayloadAction<IuserData>) {
+            return {
+                ...state,
+                activeUser: action.payload,
             };
         },
     },

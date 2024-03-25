@@ -5,9 +5,11 @@ import UserAdd from '../../components/Datatable-Page-Components/modalUserAdd/Use
 
 import UserDataTable from './UserDataTable/UserDataTable';
 import UserProfile from './UserProfile/UserProfile';
+import { useAppSelector } from '../../__data/hooks/redux';
 
 function DataTable() {
     const [showUserCreationWindow, setShowUserCreationWindow] = useState(false);
+    const { activeUser } = useAppSelector((state) => state.dataTable);
 
     const handleClickSearch = () => {
         return;
@@ -43,8 +45,7 @@ function DataTable() {
                 </Button>
                 <section className={style.InfoSectionWrapper}>
                     <UserDataTable />
-                    <UserProfile />
-                    {/* /Компонент для отображения профиля */}
+                    {Boolean(activeUser?.id) && <UserProfile />}
                 </section>
             </div>
 

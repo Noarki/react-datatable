@@ -1,5 +1,6 @@
 export interface IdataTable {
     allUsersList: IuserData[];
+    activeUser?: IuserData;
     loading: boolean;
     error: boolean;
 }
