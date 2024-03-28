@@ -9,7 +9,13 @@ import { useAppSelector } from '../../__data/hooks/redux';
 
 function DataTable() {
     const [showUserCreationWindow, setShowUserCreationWindow] = useState(false);
+    const { allUsersList } = useAppSelector((state) => state.dataTable);
     const { activeUser } = useAppSelector((state) => state.dataTable);
+    const [serchfieldText, setSearchfieldText] = useState('');
+
+    const searchFilter = (serchfieldText: string) => {
+        const lowerCaseText = serchfieldText.toLowerCase();
+    };
 
     const handleClickSearch = () => {
         return;
@@ -17,6 +23,10 @@ function DataTable() {
 
     const handleClickClear = () => {
         return;
+    };
+
+    const handleSearchfieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchfieldText(event.target.value);
     };
 
     const handleClickUserAdd = () => {
@@ -30,7 +40,12 @@ function DataTable() {
                 <hr className={style.decorationLine}></hr>
                 <p className={style.searchHeaderText}> Find user you need </p>
                 <div className={style.searchFieldWrapper}>
-                    <input className={style.searchField}></input>
+                    <input
+                        className={style.searchField}
+                        value={serchfieldText}
+                        placeholder={'Search user'}
+                        onChange={handleSearchfieldChange}
+                    ></input>
                     <div className={style.BtnWrapper}>
                         <Button className={style.searchBtn} onClick={handleClickSearch}>
                             Search
@@ -45,7 +60,7 @@ function DataTable() {
                 </Button>
                 <section className={style.InfoSectionWrapper}>
                     <UserDataTable />
-                    {Boolean(activeUser?.id) && <UserProfile />}
+                    {activeUser?.id && <UserProfile />}
                 </section>
             </div>
 

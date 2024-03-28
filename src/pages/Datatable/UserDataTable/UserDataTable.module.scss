@@ -4,24 +4,23 @@
     flex-direction: column;
 
     align-items: center;
+    width: 100%;
     margin-bottom: 24px;
 }
 
 .headerTableRow {
-    display: table-row;
+    display: table;
     background-color: rgb(103, 119, 109);
+
+    width: 100%;
 }
 
 .headerTableCell {
     display: table-cell;
     height: 36px;
-    width: 300px;
+
     vertical-align: middle;
     text-align: center;
-
-    &.id {
-        width: 10%;
-    }
 }
 
 .tableHeaderText {
@@ -32,7 +31,9 @@
 }
 
 .table {
+    display: table;
     margin-bottom: 24px;
+    width: 100%;
 }
 
 .TableRow_odd {

@@ -6,12 +6,14 @@ const UserProfile = () => {
 
     return (
         <div className={style.profileWrapper}>
-            <div> {activeUser?.id}</div>
-            <div> {activeUser?.firstName}</div>
-            <div> {activeUser?.lastName}</div>
-            <div> {activeUser?.email}</div>
-            <div> {activeUser?.phone}</div>
-            <div> {activeUser?.description}</div>
+            <div className={style.firstProfileColumn}>
+                <div> id: {activeUser?.id}</div>
+                <div> Name: {activeUser?.firstName}</div>
+                <div> Surname: {activeUser?.lastName}</div>
+                <div> Email: {activeUser?.email}</div>
+                <div> Phone number: +7{activeUser?.phone}</div>
+                <div> Description: {activeUser?.description}</div>
+            </div>
         </div>
     );
 };

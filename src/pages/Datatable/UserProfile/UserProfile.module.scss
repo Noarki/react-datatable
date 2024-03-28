@@ -1,4 +1,13 @@
 .profileWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
     background-color: bisque;
     width: 60%;
+}
+
+firstProfileColumn {
+    display: flex;
+    flex-direction: column;
 }

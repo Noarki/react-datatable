@@ -4,3 +4,13 @@
     max-width: 20%;
     justify-content: space-between;
 }
+
+.pageSwitchBtn {
+    height: 28px;
+    width: 32px;
+    border: 2px solid rgb(103, 119, 109);
+    margin-right: 8px;
+    color: rgb(103, 119, 109);
+
+    cursor: pointer;
+}

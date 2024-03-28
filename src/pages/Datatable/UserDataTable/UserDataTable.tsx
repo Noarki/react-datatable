@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../__data/hooks/redux';
 import { IuserData } from '../../../__data/models/dataTable';
 import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
-import dataTableReducer, { userSlice } from '../../../__data/store/redusers/dataTableReducer';
+import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
 interface IProps {}
 
@@ -25,16 +25,16 @@ const UserDataTable: React.FC<IProps> = () => {
     return (
         <div className={style.datatableMainWrapper}>
             <div className={style.headerTableRow}>
-                <div className={style.headerTableCell}>
+                <div className={`${style.headerTableCell} ${style.idCell}`}>
                     <p className={style.tableHeaderText}>ID</p>
                 </div>
-                <div className={style.headerTableCell}>
+                <div className={`${style.headerTableCell} ${style.firstNameCell}`}>
                     <p className={style.tableHeaderText}>Name</p>
                 </div>
-                <div className={style.headerTableCell}>
+                <div className={`${style.headerTableCell} ${style.LastNameCell}`}>
                     <p className={style.tableHeaderText}>Surname</p>
                 </div>
-                <div className={style.headerTableCell}>
+                <div className={`${style.headerTableCell} ${style.EmailCell}`}>
                     <p className={style.tableHeaderText}>email</p>
                 </div>
             </div>
@@ -45,16 +45,16 @@ const UserDataTable: React.FC<IProps> = () => {
                         className={index % 2 === 0 ? style.TableRow_odd : style.TableRow_even}
                         onClick={() => handleSetActiveProfile(value)}
                     >
-                        <div className={style.TableCell}>
+                        <div className={`${style.TableCell} ${style.idCell}`}>
                             <p className={style.tableText}>{value.id}</p>
                         </div>
-                        <div className={style.TableCell}>
+                        <div className={`${style.TableCell} ${style.firstNameCell}`}>
                             <p className={style.tableText}>{value.firstName}</p>
                         </div>
-                        <div className={style.TableCell}>
+                        <div className={`${style.TableCell} ${style.LastNameCell}`}>
                             <p className={style.tableText}>{value.lastName}</p>
                         </div>
-                        <div className={style.TableCell}>
+                        <div className={`${style.TableCell} ${style.EmailCell}`}>
                             <p className={style.tableText}>{value.email}</p>
                         </div>
                     </div>
