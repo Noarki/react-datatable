@@ -6,19 +6,35 @@ import UserAdd from '../../components/Datatable-Page-Components/modalUserAdd/Use
 import UserDataTable from './UserDataTable/UserDataTable';
 import UserProfile from './UserProfile/UserProfile';
 import { useAppSelector } from '../../__data/hooks/redux';
+import { IuserData } from '../../__data/models/dataTable';
 
 function DataTable() {
     const [showUserCreationWindow, setShowUserCreationWindow] = useState(false);
-    const { allUsersList } = useAppSelector((state) => state.dataTable);
-    const { activeUser } = useAppSelector((state) => state.dataTable);
+    const [searchResults, setSearchResults] = useState<IuserData[]>([]);
+    const { activeUser, allUsersList } = useAppSelector((state) => state.dataTable);
     const [serchfieldText, setSearchfieldText] = useState('');
 
-    const searchFilter = (serchfieldText: string) => {
+    const searchData = () => {
         const lowerCaseText = serchfieldText.toLowerCase();
+        const result = allUsersList.filter(
+            (dataObject) =>
+                String(dataObject.id) === lowerCaseText ||
+                dataObject.firstName.toLowerCase().includes(lowerCaseText) ||
+                dataObject.lastName.toLowerCase().includes(lowerCaseText) ||
+                dataObject.email.toLowerCase().includes(lowerCaseText)
+        );
+
+        setSearchResults(result);
     };
 
     const handleClickSearch = () => {
-        return;
+        searchData();
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleClickSearch();
+        }
     };
 
     const handleClickClear = () => {
@@ -45,6 +61,7 @@ function DataTable() {
                         value={serchfieldText}
                         placeholder={'Search user'}
                         onChange={handleSearchfieldChange}
+                        onKeyDown={handleKeyDown}
                     ></input>
                     <div className={style.BtnWrapper}>
                         <Button className={style.searchBtn} onClick={handleClickSearch}>
@@ -59,7 +76,7 @@ function DataTable() {
                     Add new user
                 </Button>
                 <section className={style.InfoSectionWrapper}>
-                    <UserDataTable />
+                    <UserDataTable searchResults={searchResults} />
                     {activeUser?.id && <UserProfile />}
                 </section>
             </div>

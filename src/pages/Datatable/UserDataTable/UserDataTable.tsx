@@ -5,11 +5,14 @@ import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
-interface IProps {}
+interface IProps {
+    searchResults: IuserData[];
+}
 
-const UserDataTable: React.FC<IProps> = () => {
+const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     const { allUsersList } = useAppSelector((state) => state.dataTable);
     const dispatch = useAppDispatch();
+
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
 
@@ -17,6 +20,32 @@ const UserDataTable: React.FC<IProps> = () => {
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
     const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    const renderData = (data: IuserData[]) => {
+        return (
+            <div className={style.table}>
+                {data.map((value: IuserData, index: number) => (
+                    <div
+                        className={index % 2 === 0 ? style.TableRow_odd : style.TableRow_even}
+                        onClick={() => handleSetActiveProfile(value)}
+                    >
+                        <div className={`${style.TableCell} ${style.idCell}`}>
+                            <p className={style.tableText}>{value.id}</p>
+                        </div>
+                        <div className={`${style.TableCell} ${style.firstNameCell}`}>
+                            <p className={style.tableText}>{value.firstName}</p>
+                        </div>
+                        <div className={`${style.TableCell} ${style.LastNameCell}`}>
+                            <p className={style.tableText}>{value.lastName}</p>
+                        </div>
+                        <div className={`${style.TableCell} ${style.EmailCell}`}>
+                            <p className={style.tableText}>{value.email}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     const handleSetActiveProfile = (userData: IuserData) => {
         dispatch(userSlice.actions.setActiveUser(userData));
@@ -38,28 +67,9 @@ const UserDataTable: React.FC<IProps> = () => {
                     <p className={style.tableHeaderText}>email</p>
                 </div>
             </div>
-
-            <div className={style.table}>
-                {currentPageData.map((value: IuserData, index: number) => (
-                    <div
-                        className={index % 2 === 0 ? style.TableRow_odd : style.TableRow_even}
-                        onClick={() => handleSetActiveProfile(value)}
-                    >
-                        <div className={`${style.TableCell} ${style.idCell}`}>
-                            <p className={style.tableText}>{value.id}</p>
-                        </div>
-                        <div className={`${style.TableCell} ${style.firstNameCell}`}>
-                            <p className={style.tableText}>{value.firstName}</p>
-                        </div>
-                        <div className={`${style.TableCell} ${style.LastNameCell}`}>
-                            <p className={style.tableText}>{value.lastName}</p>
-                        </div>
-                        <div className={`${style.TableCell} ${style.EmailCell}`}>
-                            <p className={style.tableText}>{value.email}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {searchResults.length > 0
+                ? renderData(searchResults.slice(firstOnPageIndex, lastOnPageIndex))
+                : renderData(currentPageData)}
 
             <Pagination
                 usersPerPageNumber={usersPerPageNumber}
