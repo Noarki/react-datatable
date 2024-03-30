@@ -12,6 +12,12 @@ const UserProfile = () => {
                 <div> Surname: {activeUser?.lastName}</div>
                 <div> Email: {activeUser?.email}</div>
                 <div> Phone number: +7{activeUser?.phone}</div>
+            </div>
+            <div className={style.secondProfileColumn}>
+                <div> State: {activeUser?.address?.state}</div>
+                <div> City: {activeUser?.address?.city}</div>
+                <div> Address: {activeUser?.address?.streetAddress}</div>
+                <div> zip: {activeUser?.address?.zip}</div>
                 <div> Description: {activeUser?.description}</div>
             </div>
         </div>

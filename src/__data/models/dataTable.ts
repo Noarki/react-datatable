@@ -14,7 +14,7 @@ export interface IuserData {
 
     description: string;
 
-    addres: Iaddres;
+    address: Iaddres;
 }
 
 export interface Iaddres {

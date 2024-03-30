@@ -77,7 +77,7 @@ function DataTable() {
                 </Button>
                 <section className={style.InfoSectionWrapper}>
                     <UserDataTable searchResults={searchResults} />
-                    {activeUser?.id && <UserProfile />}
+                    {Boolean(activeUser?.id) && <UserProfile />}
                 </section>
             </div>
 

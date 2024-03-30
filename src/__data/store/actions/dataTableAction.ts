@@ -19,3 +19,5 @@ export const fetchData = (dataType: 'short' | 'full') => async (dispatch: AppDis
         dispatch(userSlice.actions.fetchDataFailure());
     }
 };
+
+export const filterData = () => (dispatch: AppDispatch, getState: AppState) => {};

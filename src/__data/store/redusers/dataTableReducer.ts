@@ -10,7 +10,7 @@ const initialState: IdataTable = {
         email: '',
         phone: '',
         description: '',
-        addres: {
+        address: {
             city: '',
             state: '',
             streetAddress: '',
@@ -51,6 +51,12 @@ export const userSlice = createSlice({
             return {
                 ...state,
                 activeUser: action.payload,
+            };
+        },
+        filterUserDatatable(state, action: PayloadAction<IuserData[]>) {
+            return {
+                ...state,
+                allUsersList: action.payload,
             };
         },
     },
