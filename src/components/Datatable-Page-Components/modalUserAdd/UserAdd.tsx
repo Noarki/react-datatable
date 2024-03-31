@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import style from './UserAdd.module.scss';
 import Button from '../../main-Page-Components/button/Button';
+import { useState } from 'react';
 
 interface Iprops {
     showUserCreationWindow: boolean;
@@ -9,6 +10,7 @@ interface Iprops {
 
 const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreationWindow }) => {
     const portal = document.getElementById('portal');
+    const [newUserProfile, setNewUserProfile] = useState([]);
 
     const handleFormSubmit = () => {};
 
@@ -28,13 +30,13 @@ const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreation
                         </div>
 
                         <div>
-                            <h2 className={style.inputsDiscription}>name</h2>
-                            <input placeholder='name' className={style.inp}></input>
+                            <h2 className={style.inputsDiscription}>Name</h2>
+                            <input placeholder='Name' className={style.inp}></input>
                         </div>
 
                         <div>
-                            <h2 className={style.inputsDiscription}>surname</h2>
-                            <input placeholder='surname' className={style.inp}></input>
+                            <h2 className={style.inputsDiscription}>Surname</h2>
+                            <input placeholder='Surname' className={style.inp}></input>
                         </div>
 
                         <div>
@@ -71,7 +73,9 @@ const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreation
 
                     <div className={style.inputsCol}>
                         <textarea className={style.area} placeholder='Discription'></textarea>
-                        <Button onClick={handleFormSubmit}> Создать профиль </Button>
+                        <Button onClick={handleFormSubmit} className={style.userAddBtn}>
+                            Add new user
+                        </Button>
                     </div>
                 </form>
             </div>

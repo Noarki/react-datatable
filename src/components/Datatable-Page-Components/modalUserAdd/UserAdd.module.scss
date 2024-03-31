@@ -64,11 +64,25 @@
 }
 
 .area {
-    margin-top: 72px;
+    margin-top: 16px;
     margin-right: 84px;
-    margin-bottom: 84px;
+    margin-bottom: 64px;
     max-width: 240px;
     height: 250px;
     padding: 8px 0 0 8px;
     font-size: 18px;
+    resize: none;
+}
+
+.userAddBtn {
+    cursor: pointer;
+    max-width: 240px;
+    height: 30px;
+    margin-bottom: 50px;
+    border: 2px solid rgb(68, 77, 72);
+    border-radius: 25px;
+    font-size: 22px;
+    font-weight: 900;
+    color: rgb(68, 77, 72);
+    padding-bottom: 34px;
 }
