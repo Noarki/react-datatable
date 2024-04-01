@@ -39,7 +39,12 @@ const Pagination: React.FC<IProps> = ({
     const renderBtnsArray = (optimizedPageSwitcherBtnNames: string[]) => {
         return optimizedPageSwitcherBtnNames.map((btnValue: string) => (
             <div className={style.paginationBtnsWrapper}>
-                <Button className={style.pageSwitchBtn} onClick={() => handlePageSwitch(btnValue)}>
+                <Button
+                    className={
+                        String(currentPage) === btnValue ? style.pageSwitchBtnActive : style.pageSwitchBtn
+                    }
+                    onClick={() => handlePageSwitch(btnValue)}
+                >
                     {btnValue}
                 </Button>
             </div>

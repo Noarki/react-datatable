@@ -14,3 +14,14 @@
 
     cursor: pointer;
 }
+
+.pageSwitchBtnActive {
+    height: 28px;
+    width: 32px;
+
+    border: 2px solid rgb(103, 119, 109);
+    margin-right: 8px;
+    color: rgb(103, 119, 109);
+    background-color: rgb(173, 199, 179);
+    cursor: pointer;
+}
