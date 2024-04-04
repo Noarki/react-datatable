@@ -59,6 +59,12 @@ export const userSlice = createSlice({
                 allUsersList: action.payload,
             };
         },
+        addFormUserData(state, action: PayloadAction<IuserData>) {
+            return {
+                ...state,
+                allUsersList: [action.payload, ...state.allUsersList],
+            };
+        },
     },
 });
 

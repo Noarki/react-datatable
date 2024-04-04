@@ -6,7 +6,7 @@ export interface IdataTable {
 }
 
 export interface IuserData {
-    id: number;
+    id: number | string;
     firstName: string;
     lastName: string;
     email: string;
@@ -21,5 +21,5 @@ export interface Iaddres {
     streetAddress: string;
     city: string;
     state: string;
-    zip: number;
+    zip: number | string;
 }

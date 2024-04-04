@@ -2,20 +2,65 @@ import { createPortal } from 'react-dom';
 import style from './UserAdd.module.scss';
 import Button from '../../main-Page-Components/button/Button';
 import { useState } from 'react';
+import { useAppDispatch } from '../../../__data/hooks/redux';
+import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
 interface Iprops {
     showUserCreationWindow: boolean;
     setShowUserCreationWindow: (x: boolean) => void;
 }
 
-const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreationWindow }) => {
-    const portal = document.getElementById('portal');
-    const [newUserProfile, setNewUserProfile] = useState([]);
+const portal = document.getElementById('portal');
 
-    const handleFormSubmit = () => {};
+const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreationWindow }) => {
+    const dispatch = useAppDispatch();
+
+    const [formData, setFormData] = useState({
+        id: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        description: '',
+
+        address: {
+            streetAddress: '',
+            city: '',
+            state: '',
+            zip: '',
+        },
+    });
+
+    const handleSubmit = (event: any) => {
+        const { name, value } = event.target;
+
+        switch (name) {
+            case 'city':
+                setFormData({ ...formData, address: { ...formData.address, [name]: value } });
+                break;
+            case 'streetAddress':
+                setFormData({ ...formData, address: { ...formData.address, [name]: value } });
+                break;
+            case 'state':
+                setFormData({ ...formData, address: { ...formData.address, [name]: value } });
+                break;
+            case 'zip':
+                setFormData({ ...formData, address: { ...formData.address, [name]: value } });
+                break;
+
+            default:
+                setFormData({ ...formData, [name]: value });
+                break;
+        }
+    };
 
     const modalWindowOutClick = () => {
         setShowUserCreationWindow(!showUserCreationWindow);
+    };
+
+    const handleFormSubmit = () => {
+        dispatch(userSlice.actions.addFormUserData(formData));
+        modalWindowOutClick();
     };
 
     return createPortal(
@@ -26,53 +71,121 @@ const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreation
                     <div className={style.inputsCol}>
                         <div>
                             <h2 className={style.inputsDiscription}>Id</h2>
-                            <input placeholder='id' className={style.inp}></input>
+                            <input
+                                name='id'
+                                id='id'
+                                type='text'
+                                placeholder='id'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <h2 className={style.inputsDiscription}>Name</h2>
-                            <input placeholder='Name' className={style.inp}></input>
+                            <input
+                                name='firstName'
+                                id='firstName'
+                                type='text'
+                                placeholder='Name'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <h2 className={style.inputsDiscription}>Surname</h2>
-                            <input placeholder='Surname' className={style.inp}></input>
+                            <input
+                                name='lastName'
+                                id='lastName'
+                                type='text'
+                                placeholder='Surname'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <h2 className={style.inputsDiscription}>Email</h2>
-                            <input placeholder='Email' className={style.inp}></input>
+                            <input
+                                name='email'
+                                id='email'
+                                type='email'
+                                placeholder='Email'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <h2 className={style.inputsDiscription}>Phone</h2>
-                            <input placeholder='Phone' className={style.inp}></input>
+                            <input
+                                name='phone'
+                                id='phone'
+                                type='tel'
+                                placeholder='Phone'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
                     </div>
                     <div className={style.inputsCol}>
                         <div>
                             <p className={style.inputsDiscription}>Address</p>
-                            <input placeholder='Address' className={style.inp}></input>
+                            <input
+                                name='streetAddress'
+                                id='streetAddress'
+                                type='text'
+                                placeholder='Address'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <p className={style.inputsDiscription}>City</p>
-                            <input placeholder='City' className={style.inp}></input>
+                            <input
+                                name='city'
+                                id='city'
+                                type='text'
+                                placeholder='City'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <p className={style.inputsDiscription}>State</p>
-                            <input placeholder='State' className={style.inp}></input>
+                            <input
+                                name='state'
+                                id='state'
+                                type='text'
+                                placeholder='State'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
 
                         <div>
                             <p className={style.inputsDiscription}>ZIP Code</p>
-                            <input placeholder='ZIP Code' className={style.inp}></input>
+                            <input
+                                name='zip'
+                                id='zip'
+                                type='text'
+                                placeholder='ZIP Code'
+                                className={style.inp}
+                                onChange={handleSubmit}
+                            ></input>
                         </div>
                     </div>
 
                     <div className={style.inputsCol}>
-                        <textarea className={style.area} placeholder='Discription'></textarea>
+                        <textarea
+                            name='discription'
+                            onChange={handleSubmit}
+                            className={style.area}
+                            placeholder='Discription'
+                        ></textarea>
                         <Button onClick={handleFormSubmit} className={style.userAddBtn}>
                             Add new user
                         </Button>
