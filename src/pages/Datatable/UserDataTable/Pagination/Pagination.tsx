@@ -53,8 +53,11 @@ const Pagination: React.FC<IProps> = ({
 
     const renderOptimizedBtn = () => {
         if (pageSwitcherBtnNames.length > 5 && currentPage > 3) {
-            let optimizedPageSwitcherBtnNames = pageSwitcherBtnNames.slice(currentPage - 3, currentPage + 2);
-
+            let optimizedPageSwitcherBtnNames = pageSwitcherBtnNames.slice(currentPage - 2, currentPage + 1);
+            if (currentPage !== pageSwitcherBtnNames.length) {
+                optimizedPageSwitcherBtnNames.push(String(pageSwitcherBtnNames.length));
+            }
+            optimizedPageSwitcherBtnNames.unshift('1');
             return renderBtnsArray(optimizedPageSwitcherBtnNames);
         } else if (pageSwitcherBtnNames.length > 5) {
             let optimizedPageSwitcherBtnNames = pageSwitcherBtnNames.slice(0, currentPage + 2);
