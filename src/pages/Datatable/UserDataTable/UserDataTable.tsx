@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../__data/hooks/redux';
 import { IuserData } from '../../../__data/models/dataTable';
 import Pagination from './Pagination/Pagination';
@@ -15,13 +15,15 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
-    const [baseArray] = useState(allUsersList);
+    const [baseArray, setBaseArray] = useState(allUsersList);
 
     // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
     const [filtrationTypeId, setFiltrationTypeId] = useState(1);
     const [filtrationTypeName, setFiltrationTypeName] = useState(1);
     const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
     const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
+
+    useEffect(() => setBaseArray(allUsersList), [allUsersList])
 
     const lastOnPageIndex = usersPerPageNumber * currentPage;
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
@@ -164,7 +166,7 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
 
             <Pagination
                 usersPerPageNumber={usersPerPageNumber}
-                totalUserNumber={allUsersList.length}
+                totalUserNumber={searchResults.length > 0 ? searchResults.length: allUsersList.length}
                 paginate={paginate}
                 currentPage={currentPage}
                 searchResults={searchResults}
