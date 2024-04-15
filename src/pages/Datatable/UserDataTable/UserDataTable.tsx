@@ -5,6 +5,8 @@ import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
+
+
 interface IProps {
     searchResults: IuserData[];
 }
@@ -22,14 +24,50 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     const [filtrationTypeName, setFiltrationTypeName] = useState(1);
     const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
     const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
+    
+    const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>([])
 
-    useEffect(() => setBaseArray(allUsersList), [allUsersList])
+   
+
+   
+    
 
     const lastOnPageIndex = usersPerPageNumber * currentPage;
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
     const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
+    useEffect(() => setBaseArray(allUsersList), [allUsersList]);
+
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    
+    const countPageQuantity = () => {
+
+        console.log('Aboba');
+        
+        let pageQuantity = Math.ceil(allUsersList.length / usersPerPageNumber);
+        const emptyArr = [];
+        
+
+        for (let i=1; i <= pageQuantity; i++){
+            emptyArr.push(String(i));
+        }
+
+        // if (emptyArr.length > 0) {
+        //     while (i  <= pageQuantity) {
+        //         emptyArr.push(String(i));
+        //         i++;
+        //     }
+        // }
+        
+        setPageSwitcherBtnNames(emptyArr);
+        console.log(pageSwitcherBtnNames);
+        
+      
+    };
+
+    useEffect(countPageQuantity, [allUsersList]);
+   
+
 
     const renderData = (data: IuserData[]) => {
         return (
@@ -128,6 +166,7 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     };
 
     return (
+        
         <div className={style.datatableMainWrapper}>
             <div className={style.headerTableRow}>
                 <div
@@ -158,8 +197,9 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
                 >
                     <p className={style.tableHeaderText}>email</p>
                 </div>
+                
             </div>
-
+            
             {searchResults.length > 0
                 ? renderData(searchResults.slice(firstOnPageIndex, lastOnPageIndex))
                 : renderData(currentPageData)}
@@ -170,9 +210,13 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
                 paginate={paginate}
                 currentPage={currentPage}
                 searchResults={searchResults}
+                pageSwitcherBtnNames = {pageSwitcherBtnNames}
+                
             />
         </div>
+        
     );
+    
 };
 
 export default UserDataTable;

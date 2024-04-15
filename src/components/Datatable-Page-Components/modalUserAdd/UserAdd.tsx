@@ -31,6 +31,8 @@ const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreation
         },
     });
 
+    const formCorrectionCheck = /^[1-9]+[0-9]*$/.test(formData.id) && /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(formData.firstName) && /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(formData.lastName) && /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/.test(formData.email) && /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(formData.phone)
+
     const handleSubmit = (event: any) => {
         const { name, value } = event.target;
 
@@ -59,8 +61,16 @@ const UserAdd: React.FC<Iprops> = ({ setShowUserCreationWindow, showUserCreation
     };
 
     const handleFormSubmit = () => {
-        dispatch(userSlice.actions.addFormUserData(formData));
-        modalWindowOutClick();
+        if (formCorrectionCheck) {
+            setFormData({...formData, phone: formData.phone.replace('+7', '')})
+            
+            dispatch(userSlice.actions.addFormUserData(formData));
+            modalWindowOutClick();
+        }
+        else{
+            alert('Некорректные данные!!')
+        }
+        
     };
 
     return createPortal(
