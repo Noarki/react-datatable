@@ -5,8 +5,6 @@ import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
-
-
 interface IProps {
     searchResults: IuserData[];
 }
@@ -17,38 +15,30 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
-    const [baseArray, setBaseArray] = useState(allUsersList);
+    const [baseArray, setBaseArray] = useState([...allUsersList]);
 
     // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
     const [filtrationTypeId, setFiltrationTypeId] = useState(1);
     const [filtrationTypeName, setFiltrationTypeName] = useState(1);
     const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
     const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
-    
-    const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>([])
 
-   
-
-   
-    
+    const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>([]);
 
     const lastOnPageIndex = usersPerPageNumber * currentPage;
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
     const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
-    useEffect(() => setBaseArray(allUsersList), [allUsersList]);
-
+    useEffect(() => setBaseArray(allUsersList), []);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    
-    const countPageQuantity = () => {
 
+    const countPageQuantity = () => {
         console.log('Aboba');
-        
+
         let pageQuantity = Math.ceil(allUsersList.length / usersPerPageNumber);
         const emptyArr = [];
-        
 
-        for (let i=1; i <= pageQuantity; i++){
+        for (let i = 1; i <= pageQuantity; i++) {
             emptyArr.push(String(i));
         }
 
@@ -58,16 +48,11 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
         //         i++;
         //     }
         // }
-        
+
         setPageSwitcherBtnNames(emptyArr);
-        console.log(pageSwitcherBtnNames);
-        
-      
     };
 
     useEffect(countPageQuantity, [allUsersList]);
-   
-
 
     const renderData = (data: IuserData[]) => {
         return (
@@ -99,9 +84,11 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
         if (state !== 2) {
             setter(state + 1);
             console.log(state);
-        } else {
+        } else if (state === 2) {
             setter(0);
             console.log(state);
+        } else {
+            console.log('Ошибка');
         }
     };
 
@@ -141,18 +128,30 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     const handleFilterChange = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         switch (event.currentTarget.id) {
             case 'UserId':
+                setFiltrationTypeName(1);
+                setFiltrationTypeSurname(1);
+                setFiltrationTypeMail(1);
                 SetterChange(filtrationTypeId, setFiltrationTypeId);
                 filtration(filtrationTypeId, 'id');
                 break;
             case 'UserName':
+                setFiltrationTypeId(1);
+                setFiltrationTypeSurname(1);
+                setFiltrationTypeMail(1);
                 SetterChange(filtrationTypeName, setFiltrationTypeName);
                 filtration(filtrationTypeName, 'firstName');
                 break;
             case 'UserSurname':
+                setFiltrationTypeId(1);
+                setFiltrationTypeName(1);
+                setFiltrationTypeMail(1);
                 SetterChange(filtrationTypeSurname, setFiltrationTypeSurname);
                 filtration(filtrationTypeSurname, 'lastName');
                 break;
             case 'UserMail':
+                setFiltrationTypeId(1);
+                setFiltrationTypeName(1);
+                setFiltrationTypeSurname(1);
                 SetterChange(filtrationTypeMail, setFiltrationTypeMail);
                 filtration(filtrationTypeMail, 'email');
                 break;
@@ -166,7 +165,6 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     };
 
     return (
-        
         <div className={style.datatableMainWrapper}>
             <div className={style.headerTableRow}>
                 <div
@@ -197,26 +195,22 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
                 >
                     <p className={style.tableHeaderText}>email</p>
                 </div>
-                
             </div>
-            
+
             {searchResults.length > 0
                 ? renderData(searchResults.slice(firstOnPageIndex, lastOnPageIndex))
                 : renderData(currentPageData)}
 
             <Pagination
                 usersPerPageNumber={usersPerPageNumber}
-                totalUserNumber={searchResults.length > 0 ? searchResults.length: allUsersList.length}
+                totalUserNumber={searchResults.length > 0 ? searchResults.length : allUsersList.length}
                 paginate={paginate}
                 currentPage={currentPage}
                 searchResults={searchResults}
-                pageSwitcherBtnNames = {pageSwitcherBtnNames}
-                
+                pageSwitcherBtnNames={pageSwitcherBtnNames}
             />
         </div>
-        
     );
-    
 };
 
 export default UserDataTable;
