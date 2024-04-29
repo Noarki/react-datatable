@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
 import Button from '../../components/main-Page-Components/button/Button';
 import UserAdd from '../../components/Datatable-Page-Components/modalUserAdd/UserAdd';
 
 import UserDataTable from './UserDataTable/UserDataTable';
 import UserProfile from './UserProfile/UserProfile';
-import { useAppSelector } from '../../__data/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../__data/hooks/redux';
 import { IuserData } from '../../__data/models/dataTable';
+import { userSlice } from '../../__data/store/redusers/dataTableReducer';
 
 function DataTable() {
+    const dispatch = useAppDispatch();
     const [showUserCreationWindow, setShowUserCreationWindow] = useState(false);
     const [searchResults, setSearchResults] = useState<IuserData[]>([]);
     const { activeUser, allUsersList } = useAppSelector((state) => state.dataTable);
     const [serchfieldText, setSearchfieldText] = useState('');
+
+    const [baseArray, setBaseArray] = useState([...allUsersList]);
+
+    // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
+    const [filtrationTypeId, setFiltrationTypeId] = useState(1);
+    const [filtrationTypeName, setFiltrationTypeName] = useState(1);
+    const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
+    const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
+
+    useEffect(() => setBaseArray([...allUsersList]), []);
 
     const searchData = () => {
         const lowerCaseText = serchfieldText.toLowerCase();
@@ -38,7 +50,11 @@ function DataTable() {
     };
 
     const handleClickClear = () => {
-        return;
+        dispatch(userSlice.actions.filterUserDatatable(baseArray));
+        setFiltrationTypeId(1);
+        setFiltrationTypeName(1);
+        setFiltrationTypeSurname(1);
+        setFiltrationTypeMail(1);
     };
 
     const handleSearchfieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +92,19 @@ function DataTable() {
                     Add new user
                 </Button>
                 <section className={style.InfoSectionWrapper}>
-                    <UserDataTable searchResults={searchResults} />
+                    <UserDataTable
+                        filtrationTypeId={filtrationTypeId}
+                        filtrationTypeName={filtrationTypeName}
+                        filtrationTypeSurname={filtrationTypeSurname}
+                        filtrationTypeMail={filtrationTypeMail}
+                        setFiltrationTypeId={setFiltrationTypeId}
+                        setFiltrationTypeName={setFiltrationTypeName}
+                        setFiltrationTypeSurname={setFiltrationTypeSurname}
+                        setFiltrationTypeMail={setFiltrationTypeMail}
+                        searchResults={searchResults}
+                        baseArray={baseArray}
+                        setBaseArray={setBaseArray}
+                    />
                     {Boolean(activeUser?.id) && <UserProfile />}
                 </section>
             </div>
@@ -85,6 +113,8 @@ function DataTable() {
                 <UserAdd
                     showUserCreationWindow={showUserCreationWindow}
                     setShowUserCreationWindow={setShowUserCreationWindow}
+                    baseArray={baseArray}
+                    setBaseArray={setBaseArray}
                 />
             )}
         </div>

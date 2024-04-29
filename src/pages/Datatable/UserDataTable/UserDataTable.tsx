@@ -7,28 +7,44 @@ import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
 interface IProps {
     searchResults: IuserData[];
+    filtrationTypeId: number;
+    filtrationTypeName: number;
+    filtrationTypeSurname: number;
+    filtrationTypeMail: number;
+    baseArray: IuserData[];
+    setBaseArray: (x: IuserData[]) => void;
+    setFiltrationTypeId: React.Dispatch<React.SetStateAction<number>>;
+    setFiltrationTypeName: React.Dispatch<React.SetStateAction<number>>;
+    setFiltrationTypeSurname: React.Dispatch<React.SetStateAction<number>>;
+    setFiltrationTypeMail: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
+const UserDataTable: React.FC<IProps> = ({
+    searchResults,
+    setFiltrationTypeId,
+    setFiltrationTypeMail,
+    setFiltrationTypeName,
+    setFiltrationTypeSurname,
+    filtrationTypeId,
+    filtrationTypeMail,
+    filtrationTypeName,
+    filtrationTypeSurname,
+    baseArray,
+    setBaseArray,
+}) => {
     const { allUsersList } = useAppSelector((state) => state.dataTable);
     const dispatch = useAppDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
-    const [baseArray, setBaseArray] = useState([...allUsersList]);
-
-    // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
-    const [filtrationTypeId, setFiltrationTypeId] = useState(1);
-    const [filtrationTypeName, setFiltrationTypeName] = useState(1);
-    const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
-    const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
 
     const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>([]);
+
+    const [arrayForSort, setArrayForSort] = useState<IuserData[]>([...baseArray]);
 
     const lastOnPageIndex = usersPerPageNumber * currentPage;
     const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
     const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
-    useEffect(() => setBaseArray(allUsersList), []);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -53,6 +69,10 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     };
 
     useEffect(countPageQuantity, [allUsersList]);
+
+    useEffect(() => {
+        setArrayForSort(baseArray);
+    }, [baseArray]);
 
     const renderData = (data: IuserData[]) => {
         return (
@@ -83,38 +103,40 @@ const UserDataTable: React.FC<IProps> = ({ searchResults }) => {
     const SetterChange = (state: number, setter: React.Dispatch<React.SetStateAction<number>>) => {
         if (state !== 2) {
             setter(state + 1);
-            console.log(state);
         } else if (state === 2) {
             setter(0);
-            console.log(state);
-        } else {
-            console.log('Ошибка');
         }
     };
 
     const filtration = (SortType: number, sortParametr: keyof IuserData) => {
         switch (SortType) {
             case 0: {
+                console.log('Заход в 0');
                 console.log(baseArray);
-
                 dispatch(userSlice.actions.filterUserDatatable(baseArray));
                 break;
             }
             case 1: {
-                let arrayForSort = [...baseArray];
+                console.log('Заход в 1');
+                console.log(baseArray);
 
-                const sortedUserList = arrayForSort.sort((user1, user2) =>
+                const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] > user2[sortParametr] ? 1 : -1
                 );
+                setArrayForSort(sortedUserList);
+
                 dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
+
                 break;
             }
             case 2: {
-                let arrayForSort = [...baseArray];
+                console.log('Заход в 2');
+                console.log(baseArray);
 
-                const sortedUserList = arrayForSort.sort((user1, user2) =>
+                const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] < user2[sortParametr] ? 1 : -1
                 );
+                setArrayForSort(sortedUserList);
                 dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
 
                 break;

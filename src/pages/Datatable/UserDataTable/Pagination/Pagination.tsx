@@ -10,7 +10,6 @@ interface IProps {
     searchResults: IuserData[];
     paginate: (pageNumber: number) => void;
     pageSwitcherBtnNames: string[];
-    
 }
 
 const Pagination: React.FC<IProps> = ({
@@ -20,17 +19,12 @@ const Pagination: React.FC<IProps> = ({
     currentPage,
     searchResults,
     pageSwitcherBtnNames,
-    
 }) => {
-    
-
     const handlePageSwitch = (btnValue: string) => {
         paginate(Number(btnValue));
     };
 
     const renderBtnsArray = (optimizedPageSwitcherBtnNames: string[]) => {
-        console.log('renderBtnsArray');
-        
         return optimizedPageSwitcherBtnNames.map((btnValue: string) => (
             <div className={style.paginationBtnsWrapper}>
                 <Button
@@ -46,23 +40,21 @@ const Pagination: React.FC<IProps> = ({
     };
 
     const renderOptimizedBtn = () => {
-        console.log('renderOptimizedBtn');
-        
         if (pageSwitcherBtnNames.length > 5 && currentPage > 3) {
-            console.log('renderOptimizedBtn1');
             let optimizedPageSwitcherBtnNames = pageSwitcherBtnNames.slice(currentPage - 2, currentPage + 1);
-            if (currentPage !== pageSwitcherBtnNames.length - 1 && currentPage <= pageSwitcherBtnNames.length - 1) {
+            if (
+                currentPage !== pageSwitcherBtnNames.length - 1 &&
+                currentPage <= pageSwitcherBtnNames.length - 1
+            ) {
                 optimizedPageSwitcherBtnNames.push(String(pageSwitcherBtnNames.length));
             }
             optimizedPageSwitcherBtnNames.unshift('1');
             return renderBtnsArray(optimizedPageSwitcherBtnNames);
         } else if (pageSwitcherBtnNames.length > 5) {
-            console.log('renderOptimizedBtn2');
             let optimizedPageSwitcherBtnNames = pageSwitcherBtnNames.slice(0, currentPage + 2);
 
             return renderBtnsArray(optimizedPageSwitcherBtnNames);
         } else {
-            console.log('renderOptimizedBtn3');
             return renderBtnsArray(pageSwitcherBtnNames);
         }
     };
