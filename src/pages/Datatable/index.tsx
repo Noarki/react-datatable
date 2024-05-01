@@ -25,6 +25,7 @@ function DataTable() {
     const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
 
     useEffect(() => setBaseArray([...allUsersList]), []);
+    useEffect(() => searchData(), [allUsersList]);
 
     const searchData = () => {
         const lowerCaseText = serchfieldText.toLowerCase();

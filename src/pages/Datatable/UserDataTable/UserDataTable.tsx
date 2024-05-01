@@ -30,15 +30,12 @@ const UserDataTable: React.FC<IProps> = ({
     filtrationTypeName,
     filtrationTypeSurname,
     baseArray,
-    setBaseArray,
 }) => {
     const { allUsersList } = useAppSelector((state) => state.dataTable);
     const dispatch = useAppDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
-
-    const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>([]);
 
     const [arrayForSort, setArrayForSort] = useState<IuserData[]>([...baseArray]);
 
@@ -48,27 +45,26 @@ const UserDataTable: React.FC<IProps> = ({
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    const countPageQuantity = () => {
-        console.log('Aboba');
-
-        let pageQuantity = Math.ceil(allUsersList.length / usersPerPageNumber);
-        const emptyArr = [];
+    const countPageQuantity = (arr: IuserData[]) => {
+        let pageQuantity = Math.ceil(arr.length / usersPerPageNumber);
+        let emptyArr = [];
 
         for (let i = 1; i <= pageQuantity; i++) {
             emptyArr.push(String(i));
         }
 
-        // if (emptyArr.length > 0) {
-        //     while (i  <= pageQuantity) {
-        //         emptyArr.push(String(i));
-        //         i++;
-        //     }
-        // }
-
-        setPageSwitcherBtnNames(emptyArr);
+        return emptyArr;
     };
 
-    useEffect(countPageQuantity, [allUsersList]);
+    const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>(
+        countPageQuantity(allUsersList)
+    );
+    const [pageSwitcherSearchedBtnNames, setPageSwitcherSearchdBtnNames] = useState<string[]>(
+        countPageQuantity(searchResults)
+    );
+
+    useEffect(() => setPageSwitcherBtnNames(countPageQuantity(allUsersList)), [allUsersList]);
+    useEffect(() => setPageSwitcherSearchdBtnNames(countPageQuantity(searchResults)), [searchResults]);
 
     useEffect(() => {
         setArrayForSort(baseArray);
@@ -111,15 +107,10 @@ const UserDataTable: React.FC<IProps> = ({
     const filtration = (SortType: number, sortParametr: keyof IuserData) => {
         switch (SortType) {
             case 0: {
-                console.log('Заход в 0');
-                console.log(baseArray);
                 dispatch(userSlice.actions.filterUserDatatable(baseArray));
                 break;
             }
             case 1: {
-                console.log('Заход в 1');
-                console.log(baseArray);
-
                 const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] > user2[sortParametr] ? 1 : -1
                 );
@@ -130,9 +121,6 @@ const UserDataTable: React.FC<IProps> = ({
                 break;
             }
             case 2: {
-                console.log('Заход в 2');
-                console.log(baseArray);
-
                 const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] < user2[sortParametr] ? 1 : -1
                 );
@@ -230,6 +218,7 @@ const UserDataTable: React.FC<IProps> = ({
                 currentPage={currentPage}
                 searchResults={searchResults}
                 pageSwitcherBtnNames={pageSwitcherBtnNames}
+                pageSwitcherSearchedBtnNames={pageSwitcherSearchedBtnNames}
             />
         </div>
     );

@@ -21,6 +21,9 @@
 .pageSwitchBtnActive {
     height: 28px;
     width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     border: 2px solid rgb(103, 119, 109);
     margin-right: 8px;
