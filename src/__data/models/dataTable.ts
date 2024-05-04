@@ -23,3 +23,9 @@ export interface Iaddres {
     state: string;
     zip: number | string;
 }
+
+export enum Eorder {
+    ASC = 1,
+    DESC = 2,
+    NONE = 0,
+}

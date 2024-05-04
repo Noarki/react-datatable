@@ -48,6 +48,19 @@ const Pagination: React.FC<IProps> = ({
                 optimizedPageSwitcherBtnNames.push(String(BtnsNamesArray.length));
             }
 
+            // Попробовать посмотреть в эту сторону
+            // if () {
+            //     const first = BtnsNamesArray;
+            // }
+
+            // if () {
+            //     const newArr = ['1', ...BtnsNamesArray.map(() => ), '']
+            // }
+
+            // if () {
+            //     const end = ['1', ...BtnsNamesArray.slice()]
+            // }
+
             optimizedPageSwitcherBtnNames.unshift('1');
             return renderBtnsArray(optimizedPageSwitcherBtnNames);
         } else if (BtnsNamesArray.length === 1) {

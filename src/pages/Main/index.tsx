@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Button from '../../components/main-Page-Components/button/Button';
 import Loading from '../../components/main-Page-Components/loadingAnimation/Loading';
 import style from './index.module.scss';
@@ -18,13 +18,8 @@ function Main() {
         }
     }, [allUsersList]);
 
-    const handleClickShortList = () => {
-        dispatch(fetchData('short'));
-    };
-
-    const handleClickFullList = () => {
-        dispatch(fetchData('full'));
-    };
+    const handleClickShortList = () => dispatch(fetchData('short'));
+    const handleClickFullList = () => dispatch(fetchData('full'));
 
     return (
         <>

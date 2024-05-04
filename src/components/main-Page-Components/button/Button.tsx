@@ -1,8 +1,7 @@
 import React from 'react';
 
 interface Iprops {
-    onClick: () => void | ((x: string) => void);
-
+    onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
     children: string | number;
     className?: string;
 }

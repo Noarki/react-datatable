@@ -39,14 +39,6 @@ const UserAdd: React.FC<Iprops> = ({
         },
     });
 
-    const formCorrectionCheck =
-        /^[1-9]+[0-9]*$/.test(formData.id) &&
-        /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(formData.firstName) &&
-        /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(formData.lastName) &&
-        /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/.test(formData.email) &&
-        /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(formData.phone);
-    formData.phone = formData.phone.replace(/^\+7/, '');
-
     const handleSubmit = (event: any) => {
         const { name, value } = event.target;
 
@@ -74,10 +66,23 @@ const UserAdd: React.FC<Iprops> = ({
         setShowUserCreationWindow(!showUserCreationWindow);
     };
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = (e?: React.MouseEvent<HTMLButtonElement>) => {
+        e?.preventDefault();
+
+        const formCorrectionCheck =
+            /^[1-9]+[0-9]*$/.test(formData.id) &&
+            /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(
+                formData.firstName
+            ) &&
+            /^[а-яёa-z0-9А-ЯЁA-Z]+(([ ][а-яёa-z0-9А-ЯЁA-Z ])?[а-яёa-z0-9А-ЯЁA-Z]*)*$/.test(
+                formData.lastName
+            ) &&
+            /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/.test(formData.email) &&
+            /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(formData.phone);
+
         if (formCorrectionCheck) {
+            formData.phone = formData.phone.replace(/^\+7 /, '');
             setFormData({ ...formData });
-            // phone: formData.phone.replace('+7', '')
 
             dispatch(userSlice.actions.addFormUserData(formData));
             setBaseArray([formData, ...baseArray]);

@@ -19,13 +19,18 @@ function DataTable() {
     const [baseArray, setBaseArray] = useState([...allUsersList]);
 
     // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
-    const [filtrationTypeId, setFiltrationTypeId] = useState(1);
+    const [filtrationTypeId, setFiltrationTypeId] = useState(1); // ASC - фильтр по возрастанию  DESC - фильтр по убыванию NONE - Без фильтра
     const [filtrationTypeName, setFiltrationTypeName] = useState(1);
     const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
     const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
 
-    useEffect(() => setBaseArray([...allUsersList]), []);
-    useEffect(() => searchData(), [allUsersList]);
+    useEffect(() => {
+        setBaseArray([...allUsersList]);
+    }, []);
+
+    useEffect(() => {
+        searchData();
+    }, [allUsersList]);
 
     const searchData = () => {
         const lowerCaseText = serchfieldText.toLowerCase();
