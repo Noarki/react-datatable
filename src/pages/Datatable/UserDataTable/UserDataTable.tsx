@@ -1,65 +1,47 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../__data/hooks/redux';
-import { Eorder, IuserData } from '../../../__data/models/dataTable';
+import { EOrder, IUserData } from '../../../__data/models/dataTable';
 import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
+import { countPageQuantity } from './utils';
 
 interface IProps {
-    searchResults: IuserData[];
-
-    baseArray: IuserData[];
-    setBaseArray: (x: IuserData[]) => void;
+    searchResults: IUserData[];
+    baseArray: IUserData[];
 }
 
-const UserDataTable: React.FC<IProps> = ({
-    searchResults,
-
-    baseArray,
-}) => {
+const UserDataTable: React.FC<IProps> = ({ searchResults, baseArray }) => {
     const { allUsersList, filtrationType } = useAppSelector((state) => state.dataTable);
-    const dispatch = useAppDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPageNumber] = useState(10);
-
-    const [arrayForSort, setArrayForSort] = useState<IuserData[]>([...baseArray]);
-
-    const lastOnPageIndex = usersPerPageNumber * currentPage;
-    const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
-    const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
-
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-    const countPageQuantity = (arr: IuserData[]) => {
-        let pageQuantity = Math.ceil(arr.length / usersPerPageNumber);
-        let emptyArr = [];
-
-        for (let i = 1; i <= pageQuantity; i++) {
-            emptyArr.push(String(i));
-        }
-
-        return emptyArr;
-    };
-
+    const [arrayForSort, setArrayForSort] = useState<IUserData[]>([...baseArray]);
     const [pageSwitcherBtnNames, setPageSwitcherBtnNames] = useState<string[]>(
-        countPageQuantity(allUsersList)
+        countPageQuantity(allUsersList, usersPerPageNumber)
     );
     const [pageSwitcherSearchedBtnNames, setPageSwitcherSearchdBtnNames] = useState<string[]>(
-        countPageQuantity(searchResults)
+        countPageQuantity(searchResults, usersPerPageNumber)
     );
 
-    useEffect(() => setPageSwitcherBtnNames(countPageQuantity(allUsersList)), [allUsersList]);
-    useEffect(() => setPageSwitcherSearchdBtnNames(countPageQuantity(searchResults)), [searchResults]);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        setPageSwitcherBtnNames(countPageQuantity(allUsersList, usersPerPageNumber));
+    }, [allUsersList]);
+
+    useEffect(() => {
+        setPageSwitcherSearchdBtnNames(countPageQuantity(searchResults, usersPerPageNumber));
+    }, [searchResults]);
 
     useEffect(() => {
         setArrayForSort(baseArray);
     }, [baseArray]);
 
-    const renderData = (data: IuserData[]) => {
+    const renderData = (data: IUserData[]) => {
         return (
             <div className={style.table}>
-                {data.map((value: IuserData, index: number) => (
+                {data.map((value: IUserData, index: number) => (
                     <div
                         className={index % 2 === 0 ? style.TableRow_odd : style.TableRow_even}
                         onClick={() => handleSetActiveProfile(value)}
@@ -82,71 +64,37 @@ const UserDataTable: React.FC<IProps> = ({
         );
     };
 
-    const filtration = (SortType: Eorder, sortParametr: keyof IuserData) => {
-        switch (SortType) {
-            case Eorder.NONE: {
-                dispatch(userSlice.actions.filterUserDatatable(baseArray));
-                break;
-            }
-            case Eorder.ASC: {
-                const sortedUserList = [...arrayForSort].sort((user1, user2) =>
-                    user1[sortParametr] > user2[sortParametr] ? 1 : -1
-                );
-                setArrayForSort(sortedUserList);
-
-                dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
-
-                break;
-            }
-            case Eorder.DESC: {
-                const sortedUserList = [...arrayForSort].sort((user1, user2) =>
-                    user1[sortParametr] < user2[sortParametr] ? 1 : -1
-                );
-                setArrayForSort(sortedUserList);
-                dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
-                break;
-            }
-
-            default:
-                break;
-        }
-    };
-
-    //     switch (event.currentTarget.id) {
-    //         case 'UserId':
-    //             setFiltrationTypeName(1);
-    //             setFiltrationTypeSurname(1);
-    //             setFiltrationTypeMail(1);
-    //             SetterChange(filtrationTypeId, setFiltrationTypeId);
-    //             filtration(filtrationTypeId, 'id');
-    //             break;
-    //         case 'UserName':
-    //             setFiltrationTypeId(1);
-    //             setFiltrationTypeSurname(1);
-    //             setFiltrationTypeMail(1);
-    //             SetterChange(filtrationTypeName, setFiltrationTypeName);
-    //             filtration(filtrationTypeName, 'firstName');
-    //             break;
-    //         case 'UserSurname':
-    //             setFiltrationTypeId(1);
-    //             setFiltrationTypeName(1);
-    //             setFiltrationTypeMail(1);
-    //             SetterChange(filtrationTypeSurname, setFiltrationTypeSurname);
-    //             filtration(filtrationTypeSurname, 'lastName');
-    //             break;
-    //         case 'UserMail':
-    //             setFiltrationTypeId(1);
-    //             setFiltrationTypeName(1);
-    //             setFiltrationTypeSurname(1);
-    //             SetterChange(filtrationTypeMail, setFiltrationTypeMail);
-    //             filtration(filtrationTypeMail, 'email');
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // };
-
     const handleFilterChange = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const filtration = (SortType: EOrder, sortParametr: keyof IUserData) => {
+            switch (SortType) {
+                case EOrder.NONE: {
+                    dispatch(userSlice.actions.filterUserDatatable(baseArray));
+                    break;
+                }
+                case EOrder.ASC: {
+                    const sortedUserList = [...arrayForSort].sort((user1, user2) =>
+                        user1[sortParametr] > user2[sortParametr] ? 1 : -1
+                    );
+                    setArrayForSort(sortedUserList);
+
+                    dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
+
+                    break;
+                }
+                case EOrder.DESC: {
+                    const sortedUserList = [...arrayForSort].sort((user1, user2) =>
+                        user1[sortParametr] < user2[sortParametr] ? 1 : -1
+                    );
+                    setArrayForSort(sortedUserList);
+                    dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        };
+
         switch (event.currentTarget.id) {
             case 'UserId':
                 dispatch(userSlice.actions.changeFiltration());
@@ -169,9 +117,13 @@ const UserDataTable: React.FC<IProps> = ({
         }
     };
 
-    const handleSetActiveProfile = (userData: IuserData) => {
+    const handleSetActiveProfile = (userData: IUserData) => {
         dispatch(userSlice.actions.setActiveUser(userData));
     };
+
+    const lastOnPageIndex = usersPerPageNumber * currentPage;
+    const firstOnPageIndex = lastOnPageIndex - usersPerPageNumber;
+    const currentPageData = allUsersList.slice(firstOnPageIndex, lastOnPageIndex);
 
     return (
         <div className={style.datatableMainWrapper}>
@@ -211,10 +163,8 @@ const UserDataTable: React.FC<IProps> = ({
                 : renderData(currentPageData)}
 
             <Pagination
-                usersPerPageNumber={usersPerPageNumber}
-                totalUserNumber={searchResults.length > 0 ? searchResults.length : allUsersList.length}
-                paginate={paginate}
                 currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
                 searchResults={searchResults}
                 pageSwitcherBtnNames={pageSwitcherBtnNames}
                 pageSwitcherSearchedBtnNames={pageSwitcherSearchedBtnNames}

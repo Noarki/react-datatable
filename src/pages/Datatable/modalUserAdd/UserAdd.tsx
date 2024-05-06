@@ -1,16 +1,16 @@
 import { createPortal } from 'react-dom';
 import style from './UserAdd.module.scss';
-import Button from '../../main-Page-Components/button/Button';
+import Button from '../../../components/button/Button';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../__data/hooks/redux';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
-import { IuserData } from '../../../__data/models/dataTable';
+import { IUserData } from '../../../__data/models/dataTable';
 
 interface Iprops {
     showUserCreationWindow: boolean;
     setShowUserCreationWindow: (x: boolean) => void;
-    baseArray: IuserData[];
-    setBaseArray: (x: IuserData[]) => void;
+    baseArray: IUserData[];
+    setBaseArray: (x: IUserData[]) => void;
 }
 
 const portal = document.getElementById('portal');

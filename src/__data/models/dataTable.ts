@@ -1,32 +1,29 @@
-export interface IdataTable {
-    allUsersList: IuserData[];
-    activeUser?: IuserData;
+export interface IDataTable {
+    allUsersList: IUserData[];
+    activeUser?: IUserData;
     loading: boolean;
     error: boolean;
-
-    filtrationType: Eorder;
+    filtrationType: EOrder;
 }
 
-export interface IuserData {
+export interface IUserData {
     id: number | string;
     firstName: string;
     lastName: string;
     email: string;
     phone: string;
-
     description: string;
-
-    address: Iaddres;
+    address: IAddres;
 }
 
-export interface Iaddres {
+export interface IAddres {
     streetAddress: string;
     city: string;
     state: string;
     zip: number | string;
 }
 
-export enum Eorder {
+export enum EOrder {
     ASC = 1,
     DESC = 2,
     NONE = 0,

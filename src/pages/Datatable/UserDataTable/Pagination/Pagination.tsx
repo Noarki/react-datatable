@@ -1,27 +1,26 @@
 import React from 'react';
-import Button from '../../../../components/main-Page-Components/button/Button';
+import Button from '../../../../components/button/Button';
 import style from './Pagination.module.scss';
-import { IuserData } from '../../../../__data/models/dataTable';
+import { IUserData } from '../../../../__data/models/dataTable';
+import { paginate } from '../utils';
 
 interface IProps {
-    usersPerPageNumber: number;
-    totalUserNumber: number;
     currentPage: number;
-    searchResults: IuserData[];
-    paginate: (pageNumber: number) => void;
+    searchResults: IUserData[];
     pageSwitcherBtnNames: string[];
     pageSwitcherSearchedBtnNames: string[];
+    setCurrentPage: (page: number) => void;
 }
 
 const Pagination: React.FC<IProps> = ({
-    paginate,
     currentPage,
     searchResults,
     pageSwitcherBtnNames,
     pageSwitcherSearchedBtnNames,
+    setCurrentPage,
 }) => {
     const handlePageSwitch = (btnValue: string) => {
-        paginate(Number(btnValue));
+        paginate(Number(btnValue), setCurrentPage);
     };
 
     const renderBtnsArray = (optimizedPageSwitcherBtnNames: string[]) => {

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
-import Button from '../../components/main-Page-Components/button/Button';
-import UserAdd from '../../components/Datatable-Page-Components/modalUserAdd/UserAdd';
+import Button from '../../components/button/Button';
+import UserAdd from './/modalUserAdd/UserAdd';
 
 import UserDataTable from './UserDataTable/UserDataTable';
 import UserProfile from './UserProfile/UserProfile';
 import { useAppDispatch, useAppSelector } from '../../__data/hooks/redux';
-import { IuserData } from '../../__data/models/dataTable';
+import { IUserData } from '../../__data/models/dataTable';
 import { userSlice } from '../../__data/store/redusers/dataTableReducer';
 
 function DataTable() {
     const dispatch = useAppDispatch();
     const [showUserCreationWindow, setShowUserCreationWindow] = useState(false);
-    const [searchResults, setSearchResults] = useState<IuserData[]>([]);
+    const [searchResults, setSearchResults] = useState<IUserData[]>([]);
     const { activeUser, allUsersList } = useAppSelector((state) => state.dataTable);
     const [serchfieldText, setSearchfieldText] = useState('');
 
@@ -90,11 +90,7 @@ function DataTable() {
                     Add new user
                 </Button>
                 <section className={style.InfoSectionWrapper}>
-                    <UserDataTable
-                        searchResults={searchResults}
-                        baseArray={baseArray}
-                        setBaseArray={setBaseArray}
-                    />
+                    <UserDataTable searchResults={searchResults} baseArray={baseArray} />
                     {Boolean(activeUser?.id) && <UserProfile />}
                 </section>
             </div>

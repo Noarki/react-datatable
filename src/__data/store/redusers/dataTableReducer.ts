@@ -1,25 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Eorder, IdataTable, IuserData } from '../../models/dataTable';
+import { EOrder, IDataTable, IUserData } from '../../models/dataTable';
 
-const initialState: IdataTable = {
+const initialState: IDataTable = {
     allUsersList: [],
-    activeUser: {
-        id: NaN,
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        description: '',
-        address: {
-            city: '',
-            state: '',
-            streetAddress: '',
-            zip: NaN,
-        },
-    },
     loading: false,
     error: false,
-    filtrationType: Eorder.ASC,
+    filtrationType: EOrder.ASC,
 };
 
 export const userSlice = createSlice({
@@ -33,7 +19,7 @@ export const userSlice = createSlice({
                 error: false,
             };
         },
-        fetchDataSuccess(state, action: PayloadAction<IuserData[]>) {
+        fetchDataSuccess(state, action: PayloadAction<IUserData[]>) {
             return {
                 ...state,
                 allUsersList: action.payload,
@@ -48,41 +34,41 @@ export const userSlice = createSlice({
                 loading: false,
             };
         },
-        setActiveUser(state, action: PayloadAction<IuserData>) {
+        setActiveUser(state, action: PayloadAction<IUserData>) {
             return {
                 ...state,
                 activeUser: action.payload,
             };
         },
-        filterUserDatatable(state, action: PayloadAction<IuserData[]>) {
+        filterUserDatatable(state, action: PayloadAction<IUserData[]>) {
             return {
                 ...state,
                 allUsersList: action.payload,
             };
         },
-        addFormUserData(state, action: PayloadAction<IuserData>) {
+        addFormUserData(state, action: PayloadAction<IUserData>) {
             return {
                 ...state,
                 allUsersList: [action.payload, ...state.allUsersList],
             };
         },
         changeFiltration(state) {
-            if (state.filtrationType !== Eorder.DESC) {
+            if (state.filtrationType !== EOrder.DESC) {
                 return {
                     ...state,
                     filtrationType: state.filtrationType + 1,
                 };
-            } else if (state.filtrationType === Eorder.DESC) {
+            } else if (state.filtrationType === EOrder.DESC) {
                 return {
                     ...state,
-                    filtrationType: Eorder.NONE,
+                    filtrationType: EOrder.NONE,
                 };
             }
         },
         resetFiltration(state) {
             return {
                 ...state,
-                FiltrationType: Eorder.NONE,
+                filtrationType: EOrder.NONE,
             };
         },
     },

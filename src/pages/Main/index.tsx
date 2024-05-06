@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import Button from '../../components/main-Page-Components/button/Button';
-import Loading from '../../components/main-Page-Components/loadingAnimation/Loading';
+import Button from '../../components/button/Button';
+import Loading from '../../components/loadingAnimation/Loading';
 import style from './index.module.scss';
 import { useAppDispatch, useAppSelector } from '../../__data/hooks/redux';
 
