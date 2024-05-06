@@ -18,12 +18,6 @@ function DataTable() {
 
     const [baseArray, setBaseArray] = useState([...allUsersList]);
 
-    // 0 - нет фильтра, 1 - фильтр по возрастанию, 2 - фильтр по убыванию
-    const [filtrationTypeId, setFiltrationTypeId] = useState(1); // ASC - фильтр по возрастанию  DESC - фильтр по убыванию NONE - Без фильтра
-    const [filtrationTypeName, setFiltrationTypeName] = useState(1);
-    const [filtrationTypeSurname, setFiltrationTypeSurname] = useState(1);
-    const [filtrationTypeMail, setFiltrationTypeMail] = useState(1);
-
     useEffect(() => {
         setBaseArray([...allUsersList]);
     }, []);
@@ -57,10 +51,8 @@ function DataTable() {
 
     const handleClickClear = () => {
         dispatch(userSlice.actions.filterUserDatatable(baseArray));
-        setFiltrationTypeId(1);
-        setFiltrationTypeName(1);
-        setFiltrationTypeSurname(1);
-        setFiltrationTypeMail(1);
+        dispatch(userSlice.actions.resetFiltration());
+        setSearchfieldText('');
     };
 
     const handleSearchfieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,14 +91,6 @@ function DataTable() {
                 </Button>
                 <section className={style.InfoSectionWrapper}>
                     <UserDataTable
-                        filtrationTypeId={filtrationTypeId}
-                        filtrationTypeName={filtrationTypeName}
-                        filtrationTypeSurname={filtrationTypeSurname}
-                        filtrationTypeMail={filtrationTypeMail}
-                        setFiltrationTypeId={setFiltrationTypeId}
-                        setFiltrationTypeName={setFiltrationTypeName}
-                        setFiltrationTypeSurname={setFiltrationTypeSurname}
-                        setFiltrationTypeMail={setFiltrationTypeMail}
                         searchResults={searchResults}
                         baseArray={baseArray}
                         setBaseArray={setBaseArray}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { userSlice } from '../redusers/dataTableReducer';
 import { AppDispatch, AppState } from '../store';
 import { IuserData } from '../../models/dataTable';
-import { FULL_DATA, SHORT_DATA } from '../../../config/network';
+import { FULL_DATA, SHORT_DATA } from '../.././config/network';
 
 export const displayGetShortDataList = () => (dispatch: AppDispatch, getState: AppState) => {};
 
@@ -19,5 +19,3 @@ export const fetchData = (dataType: 'short' | 'full') => async (dispatch: AppDis
         dispatch(userSlice.actions.fetchDataFailure());
     }
 };
-
-export const filterData = () => (dispatch: AppDispatch, getState: AppState) => {};

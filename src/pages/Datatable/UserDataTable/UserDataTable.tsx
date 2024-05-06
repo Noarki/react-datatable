@@ -1,37 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../__data/hooks/redux';
-import { IuserData } from '../../../__data/models/dataTable';
+import { Eorder, IuserData } from '../../../__data/models/dataTable';
 import Pagination from './Pagination/Pagination';
 import style from './UserDataTable.module.scss';
 import { userSlice } from '../../../__data/store/redusers/dataTableReducer';
 
 interface IProps {
     searchResults: IuserData[];
-    filtrationTypeId: number;
-    filtrationTypeName: number;
-    filtrationTypeSurname: number;
-    filtrationTypeMail: number;
+
     baseArray: IuserData[];
     setBaseArray: (x: IuserData[]) => void;
-    setFiltrationTypeId: React.Dispatch<React.SetStateAction<number>>;
-    setFiltrationTypeName: React.Dispatch<React.SetStateAction<number>>;
-    setFiltrationTypeSurname: React.Dispatch<React.SetStateAction<number>>;
-    setFiltrationTypeMail: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const UserDataTable: React.FC<IProps> = ({
     searchResults,
-    setFiltrationTypeId,
-    setFiltrationTypeMail,
-    setFiltrationTypeName,
-    setFiltrationTypeSurname,
-    filtrationTypeId,
-    filtrationTypeMail,
-    filtrationTypeName,
-    filtrationTypeSurname,
+
     baseArray,
 }) => {
-    const { allUsersList } = useAppSelector((state) => state.dataTable);
+    const { allUsersList, filtrationType } = useAppSelector((state) => state.dataTable);
     const dispatch = useAppDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -96,21 +82,13 @@ const UserDataTable: React.FC<IProps> = ({
         );
     };
 
-    const SetterChange = (state: number, setter: React.Dispatch<React.SetStateAction<number>>) => {
-        if (state !== 2) {
-            setter(state + 1);
-        } else if (state === 2) {
-            setter(0);
-        }
-    };
-
-    const filtration = (SortType: number, sortParametr: keyof IuserData) => {
+    const filtration = (SortType: Eorder, sortParametr: keyof IuserData) => {
         switch (SortType) {
-            case 0: {
+            case Eorder.NONE: {
                 dispatch(userSlice.actions.filterUserDatatable(baseArray));
                 break;
             }
-            case 1: {
+            case Eorder.ASC: {
                 const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] > user2[sortParametr] ? 1 : -1
                 );
@@ -120,13 +98,12 @@ const UserDataTable: React.FC<IProps> = ({
 
                 break;
             }
-            case 2: {
+            case Eorder.DESC: {
                 const sortedUserList = [...arrayForSort].sort((user1, user2) =>
                     user1[sortParametr] < user2[sortParametr] ? 1 : -1
                 );
                 setArrayForSort(sortedUserList);
                 dispatch(userSlice.actions.filterUserDatatable(sortedUserList));
-
                 break;
             }
 
@@ -135,35 +112,57 @@ const UserDataTable: React.FC<IProps> = ({
         }
     };
 
+    //     switch (event.currentTarget.id) {
+    //         case 'UserId':
+    //             setFiltrationTypeName(1);
+    //             setFiltrationTypeSurname(1);
+    //             setFiltrationTypeMail(1);
+    //             SetterChange(filtrationTypeId, setFiltrationTypeId);
+    //             filtration(filtrationTypeId, 'id');
+    //             break;
+    //         case 'UserName':
+    //             setFiltrationTypeId(1);
+    //             setFiltrationTypeSurname(1);
+    //             setFiltrationTypeMail(1);
+    //             SetterChange(filtrationTypeName, setFiltrationTypeName);
+    //             filtration(filtrationTypeName, 'firstName');
+    //             break;
+    //         case 'UserSurname':
+    //             setFiltrationTypeId(1);
+    //             setFiltrationTypeName(1);
+    //             setFiltrationTypeMail(1);
+    //             SetterChange(filtrationTypeSurname, setFiltrationTypeSurname);
+    //             filtration(filtrationTypeSurname, 'lastName');
+    //             break;
+    //         case 'UserMail':
+    //             setFiltrationTypeId(1);
+    //             setFiltrationTypeName(1);
+    //             setFiltrationTypeSurname(1);
+    //             SetterChange(filtrationTypeMail, setFiltrationTypeMail);
+    //             filtration(filtrationTypeMail, 'email');
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // };
+
     const handleFilterChange = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         switch (event.currentTarget.id) {
             case 'UserId':
-                setFiltrationTypeName(1);
-                setFiltrationTypeSurname(1);
-                setFiltrationTypeMail(1);
-                SetterChange(filtrationTypeId, setFiltrationTypeId);
-                filtration(filtrationTypeId, 'id');
+                dispatch(userSlice.actions.changeFiltration());
+                filtration(filtrationType, 'id');
                 break;
             case 'UserName':
-                setFiltrationTypeId(1);
-                setFiltrationTypeSurname(1);
-                setFiltrationTypeMail(1);
-                SetterChange(filtrationTypeName, setFiltrationTypeName);
-                filtration(filtrationTypeName, 'firstName');
+                dispatch(userSlice.actions.changeFiltration());
+                filtration(filtrationType, 'firstName');
                 break;
             case 'UserSurname':
-                setFiltrationTypeId(1);
-                setFiltrationTypeName(1);
-                setFiltrationTypeMail(1);
-                SetterChange(filtrationTypeSurname, setFiltrationTypeSurname);
-                filtration(filtrationTypeSurname, 'lastName');
+                dispatch(userSlice.actions.changeFiltration());
+                filtration(filtrationType, 'lastName');
                 break;
             case 'UserMail':
-                setFiltrationTypeId(1);
-                setFiltrationTypeName(1);
-                setFiltrationTypeSurname(1);
-                SetterChange(filtrationTypeMail, setFiltrationTypeMail);
-                filtration(filtrationTypeMail, 'email');
+                dispatch(userSlice.actions.changeFiltration());
+                filtration(filtrationType, 'email');
                 break;
             default:
                 break;

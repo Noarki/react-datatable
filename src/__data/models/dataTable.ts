@@ -3,6 +3,8 @@ export interface IdataTable {
     activeUser?: IuserData;
     loading: boolean;
     error: boolean;
+
+    filtrationType: Eorder;
 }
 
 export interface IuserData {

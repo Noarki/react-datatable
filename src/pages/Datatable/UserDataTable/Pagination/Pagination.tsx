@@ -14,8 +14,6 @@ interface IProps {
 }
 
 const Pagination: React.FC<IProps> = ({
-    usersPerPageNumber,
-    totalUserNumber,
     paginate,
     currentPage,
     searchResults,
@@ -44,55 +42,28 @@ const Pagination: React.FC<IProps> = ({
     const renderOptimizedBtn = (BtnsNamesArray: string[]) => {
         if (BtnsNamesArray.length > 5 && currentPage > 3) {
             let optimizedPageSwitcherBtnNames = BtnsNamesArray.slice(currentPage - 2, currentPage + 1);
+
             if (currentPage !== BtnsNamesArray.length - 1 && currentPage <= BtnsNamesArray.length - 1) {
                 optimizedPageSwitcherBtnNames.push(String(BtnsNamesArray.length));
             }
 
-            // Попробовать посмотреть в эту сторону
-            // if () {
-            //     const first = BtnsNamesArray;
-            // }
-
-            // if () {
-            //     const newArr = ['1', ...BtnsNamesArray.map(() => ), '']
-            // }
-
-            // if () {
-            //     const end = ['1', ...BtnsNamesArray.slice()]
-            // }
-
-            optimizedPageSwitcherBtnNames.unshift('1');
-            return renderBtnsArray(optimizedPageSwitcherBtnNames);
+            return renderBtnsArray(['1', ...optimizedPageSwitcherBtnNames]);
         } else if (BtnsNamesArray.length === 1) {
             return <></>;
         } else if (pageSwitcherBtnNames.length > 5) {
-            let optimizedPageSwitcherBtnNames = BtnsNamesArray.slice(0, currentPage + 2);
-
+            let optimizedPageSwitcherBtnNames = BtnsNamesArray.slice(0, currentPage + 1);
+            optimizedPageSwitcherBtnNames.push(String(BtnsNamesArray.length));
             return renderBtnsArray(optimizedPageSwitcherBtnNames);
         } else {
             return renderBtnsArray(BtnsNamesArray);
         }
     };
 
-    // const renderSearchedBtn = () => {
-    //     if (searchResultsBtnNames.length > 5 && currentPage > 3) {
-    //         let optimizedPageSwitcherBtnNames = searchResultsBtnNames.slice(currentPage - 3, currentPage + 2);
-    //         return renderBtnsArray(optimizedPageSwitcherBtnNames);
-    //     } else if (pageSwitcherBtnNames.length > 5) {
-    //         let optimizedPageSwitcherBtnNames = searchResultsBtnNames.slice(0, currentPage + 2);
-
-    //         return renderBtnsArray(optimizedPageSwitcherBtnNames);
-    //     } else {
-    //         return renderBtnsArray(pageSwitcherBtnNames);
-    //     }
-    // };
-
     return (
         <div className={style.paginationWrapper}>
             {searchResults.length > 0
                 ? renderOptimizedBtn(pageSwitcherSearchedBtnNames)
                 : renderOptimizedBtn(pageSwitcherBtnNames)}
-            {/* {renderOptimizedBtn(pageSwitcherBtnNames)} */}
         </div>
     );
 };

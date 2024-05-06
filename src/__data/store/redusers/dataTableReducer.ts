@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IdataTable, IuserData } from '../../models/dataTable';
+import { Eorder, IdataTable, IuserData } from '../../models/dataTable';
 
 const initialState: IdataTable = {
     allUsersList: [],
@@ -19,6 +19,7 @@ const initialState: IdataTable = {
     },
     loading: false,
     error: false,
+    filtrationType: Eorder.ASC,
 };
 
 export const userSlice = createSlice({
@@ -63,6 +64,25 @@ export const userSlice = createSlice({
             return {
                 ...state,
                 allUsersList: [action.payload, ...state.allUsersList],
+            };
+        },
+        changeFiltration(state) {
+            if (state.filtrationType !== Eorder.DESC) {
+                return {
+                    ...state,
+                    filtrationType: state.filtrationType + 1,
+                };
+            } else if (state.filtrationType === Eorder.DESC) {
+                return {
+                    ...state,
+                    filtrationType: Eorder.NONE,
+                };
+            }
+        },
+        resetFiltration(state) {
+            return {
+                ...state,
+                FiltrationType: Eorder.NONE,
             };
         },
     },
